@@ -1,12 +1,14 @@
-# d3.parsets
+# d3.parsets_Plus
 
 An interactive parallel sets visualisation for D3.js.
 
-Example: <http://www.jasondavies.com/parallel-sets/>.
+Justin Gosses : Small additions to the CSS. Major improvement was addition of UI to select which categories to show of a large list, which hopefully will deal with the major problem of parallel sets, which is they become too cluttered too quickly.
 
-![Titanic Survivors](http://www.jasondavies.com/parallel-sets/parsets.png)
+This is a further progression on d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
+which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz.
 
-Functionality based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz.
+=====================================================
+Documentation below directly copied from https://github.com/jasondavies/d3-parsets
 
 ## API
 
