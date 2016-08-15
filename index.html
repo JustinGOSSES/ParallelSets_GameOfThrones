@@ -1,279 +1,94 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<title>Parallel Sets</title>
-<style>
-@import url(d3.parsets.css);
+<!doctype html>
+<html class="no-js" lang="en">
+<!-- Need to debug why tooltip in parallel sets doesn't work!!!!! -->
+<!-- Need to clean up text and design -->
+<head>
+  <meta charset="utf-8">
+  <title>Parallel Sets Example using Game of Thrones Battles</title>
 
-body {
-  font-family: sans-serif;
-  font-size: 16px;
-  width: 960px;
-  margin: 1em auto;
-  position: relative;
-}
-h1, h2, .dimension text {
-  text-align: center;
-  font-family: "PT Sans", Helvetica;
-  font-weight: 300;
-}
-h1 {
-  font-size: 4em;
-  margin: .5em 0 0 0;
-}
-h2 {
-  font-size: 2em;
-  margin: 1em 0 0.5em;
-  border-bottom: solid #ccc 1px;
-}
-p.meta, p.footer {
-  font-size: 13px;
-  color: #333;
-}
-p.meta {
-  text-align: center;
-}
+  <link rel="stylesheet" type="text/css" href="ParaSet_transfer/paraset_inline.css" />
+  <link rel="stylesheet" type="text/css" href="ParaSet_transfer/d3.parsets.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" />
+  <!--  Remember to change the location of the two CSS links below and check for others in chort -->
+  <!-- <link rel="stylesheet" href="HC_chord_1/bower_components/foundation/css/foundation.css" /> -->
+  <!-- <link rel="stylesheet" type="text/css" href="HC_chord_1/css/app.css" /> -->
 
-text.icicle { pointer-events: none; }
+  <link rel="stylesheet" id="options_typography_Roboto-300-css" href="https://fonts.googleapis.com/css?family=Roboto:300" type="text/css" media="all">
+   <link rel="stylesheet" id="options_typography_Roboto-700-css" href="https://fonts.googleapis.com/css?family=Roboto:300" type="text/css" media="all">
 
-.options { font-size: 12px; text-align: center; padding: 5px 0; }
-.curves { float: left; }
-.source { float: right; }
-pre, code { font-family: "Menlo", monospace; }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 
-.html .value,
-.javascript .string,
-.javascript .regexp {
-  color: #756bb1;
-}
-
-.html .tag,
-.css .tag,
-.javascript .keyword {
-  color: #3182bd;
-}
-
-.comment {
-  color: #636363;
-}
-
-.html .doctype,
-.javascript .number {
-  color: #31a354;
-}
-
-.html .attribute,
-.css .attribute,
-.javascript .class,
-.javascript .special {
-  color: #e6550d;
-}
-</style>
+ <!--  <script src="HC_chord_1/bower_components/modernizr/modernizr.js"></script>
+  <script src="HC_chord_1/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="HC_chord_1/bower_components/angular/angular.min.js"></script> -->
+</head>
 
 <body>
-
-<h1 class="topH1">NASA Civil Servant Transfers Between Centers</h1>
+<h1 >Parallel Sets Data Visualization</h1>
 <!-- <h3>Parallel Sets and Chord Visualization</h3> -->
-<h5 class="text-center">Interactive visualisation techniques for multidimensional categorical data.</h5>
+<h5 class="text-center">Interactive visualisation technique for multidimensional categorical data.</h5>
 
-<p>
-  The NASA civil servants who transfer between centers represent a diverse collection of staff and make for a complex multidimensional dataset. The parallel set visualization allows a user to explore the characteristics of the transfered staff. By moving the categories around, different aspects of the data can be better visualized. The chord diagram further down the page represents the flow of transfers from one center to another. Hovering the mouse over different parts of this visualization will highlight either individual chords or all chords connecting to a specific center. These types of interactive relationial visualiations allow many specific and more general questions to be addressed by the same figure. 
-</p>
-
-
-<h1>Parallel Sets</h1>
-<p class="meta">A visualisation technique for multidimensional categorical data.
-
-<h2>Description of NASA Inter-Center Transfers 2011-2016</h2>
-<div id="vis"><noscript><img src="parsets.png"></noscript></div>
-<div class="options">
-  <span class="curves"><label for="curved"><input type="checkbox" id="curved" onchange="curves.call(this)"> Curves?</label></span>
+<h2>Game of Thrones Battles <small>(298-300)</small></h2>
+<div class="center">
+  <!-- <div class="rebuild"><ul class="rebuild"><li><a href="#" class="rebuild">rebuild</a></li></ul></div> -->
+  <button class="rebuild button">Rebuild Visualization</button>
+  <div class="center inline dropdown">
+    <ul id="drop-nav" class="">
+    <!--   <li><a href="#">Support</a></li> -->
+      <li><a href="#" class="Select_Datasets">Select New Datasets</a>
+        <ul id="dimensions_list">
+          <li><a href="#">HTML</a></li>
+          <li><a href="#">CSS</a></li>
+          <li><a href="#">JavaScript</a></li>
+          <li><a href="#">Joomla</a></li>
+          <li><a href="#">Drupal</a></li>
+          <li><a href="#">WordPress</a></li>
+          <li><a href="#">Concrete 5</a></li>
+          <li><a href="#">General Inquiries</a></li>
+          <li><a href="#">Ask me a Question</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  
 </div>
 
+<div id="vis"><noscript><img src="parsets.png"></noscript></div>
+<!-- <div class="options">
+  <span class="curves"><label for="curved"><input type="checkbox" id="curved" onchange="curves.call(this)"> Curves?</label></span>
+  <span class="curves"><label for="curved"><input type="checkbox" id="curved"> Curves?</label></span>
+</div> -->
+<div>
+  <p class="meta marginLeft">
+    <b>Please explore the data!</b> Category labels can be moved vertically and sub-labels moved horizontally to better see relationships. Using the two menu buttons on top allows you to select what data types are included to help you focus on specific relationships you are interested in seeing.
+  </p>
+  <p class="meta marginLeft">
+    The band width as well as numbers and % in the tooltips (hover over a band to see them) are based on the numbers of battles that meet each category.
+  </p>
+<!--   <p class="meta">
+    Hovering over labels and bands will highlight relationships across categories.
+  </p> -->
+</div>
+<!-- this is the dividing line between parallel set above and chord below . -->
+</br>
+    <div>
+      <p >
+        The dataset for this visualization comes from <a href="https://www.kaggle.com" target="blank">Kaggle</a>, a data science  website geared to competition and community.
+      </p>
+      <p>
+        This visualization is based heavily on <a href="https://github.com/jasondavies/d3-parsets" target="blank">Jason Davies</a> d3-parasets project with the main advance being the ability for the user to select which categories are shown.
+      </p>
+      <p>
+        Note: I suspect there might be at least one error in the original dataset, so check the original <a href="https://www.kaggle.com/mylesoneill/game-of-thrones" target="blank">data source</a> to see if there are any updates before you use it. 
+      </p>
+    </div>
+  </div>
+  </br>
+  <script src="ParaSet_transfer/d3.min.js"></script>
+  <script src="ParaSet_transfer/d3.parsets.js"></script>
+  <script src="ParaSet_transfer/highlight.min.js"></script>
+  <script src="ParaSet_transfer/paraset_inlineScript.js"></script>
 
 
-<script src="d3.min.js"></script>
-<script src="d3.parsets.js"></script>
-<script src="highlight.min.js"></script>
-<script>
-var chart = d3.parsets()
-    .dimensions([ "Grade", "Grade Or Level From", "Age Group",  "Supv Status Desc", "Retire Plan Desc", "Vet Pref", "S&E",]);
-        // .dimensions(["Bureau", "Bureau From", "Org", "Org From",  "Date Effective",  "Noa 1", "Noa Table Id 1",  "Grade", "Grade Or Level From", "Occ Series",  "Psn Occ", "Retire Plan Desc",  "Step",  "Supv Status Desc",  "Vet Pref",  "Center",  "CenterFrom",  "Age Group", "S&E", "Combined"]);
-
-var vis = d3.select("#vis").append("svg")
-    .attr("width", chart.width())
-    .attr("height", chart.height());
-
-var partition = d3.layout.partition()
-    .sort(null)
-    .size([chart.width(), chart.height() * 5 / 4])
-    .children(function(d) { return d.children ? d3.values(d.children) : null; })
-    .value(function(d) { return d.count; });
-
-var ice = false;
-
-function curves() {
-  var t = vis.transition().duration(500);
-  if (ice) {
-    t.delay(1000);
-    icicle();
-  }
-  t.call(chart.tension(this.checked ? .5 : 1));
-}
-
-d3.csv("titanic.csv", function(error, csv) {
-  vis.datum(csv).call(chart);
-
-  window.icicle = function() {
-    var newIce = this.checked,
-        tension = chart.tension();
-    if (newIce === ice) return;
-    if (ice = newIce) {
-      var dimensions = [];
-      vis.selectAll("g.dimension")
-         .each(function(d) { dimensions.push(d); });
-      dimensions.sort(function(a, b) { return a.y - b.y; });
-      var root = d3.parsets.tree({children: {}}, csv, dimensions.map(function(d) { return d.name; }), function() { return 1; }),
-          nodes = partition(root),
-          nodesByPath = {};
-      nodes.forEach(function(d) {
-        var path = d.data.name,
-            p = d;
-        while ((p = p.parent) && p.data.name) {
-          path = p.data.name + "\0" + path;
-        }
-        if (path) nodesByPath[path] = d;
-      });
-      var data = [];
-      vis.on("mousedown.icicle", stopClick, true)
-        .select(".ribbon").selectAll("path")
-          .each(function(d) {
-            var node = nodesByPath[d.path],
-                s = d.source,
-                t = d.target;
-            s.node.x0 = t.node.x0 = 0;
-            s.x0 = t.x0 = node.x;
-            s.dx0 = s.dx;
-            t.dx0 = t.dx;
-            s.dx = t.dx = node.dx;
-            data.push(d);
-          });
-      iceTransition(vis.selectAll("path"))
-          .attr("d", function(d) {
-            var s = d.source,
-                t = d.target;
-            return ribbonPath(s, t, tension);
-          })
-          .style("stroke-opacity", 1);
-      iceTransition(vis.selectAll("text.icicle")
-          .data(data)
-        .enter().append("text")
-          .attr("class", "icicle")
-          .attr("text-anchor", "middle")
-          .attr("dy", ".3em")
-          .attr("transform", function(d) {
-            return "translate(" + [d.source.x0 + d.source.dx / 2, d.source.dimension.y0 + d.target.dimension.y0 >> 1] + ")rotate(90)";
-          })
-          .text(function(d) { return d.source.dx > 15 ? d.node.name : null; })
-          .style("opacity", 1e-6))
-          .style("opacity", 1);
-      iceTransition(vis.selectAll("g.dimension rect, g.category")
-          .style("opacity", 1))
-          .style("opacity", 1e-6)
-          .each("end", function() { d3.select(this).attr("visibility", "hidden"); });
-      iceTransition(vis.selectAll("text.dimension"))
-          .attr("transform", "translate(0,-5)");
-      vis.selectAll("tspan.sort").style("visibility", "hidden");
-    } else {
-      vis.on("mousedown.icicle", null)
-        .select(".ribbon").selectAll("path")
-          .each(function(d) {
-            var s = d.source,
-                t = d.target;
-            s.node.x0 = s.node.x;
-            s.x0 = s.x;
-            s.dx = s.dx0;
-            t.node.x0 = t.node.x;
-            t.x0 = t.x;
-            t.dx = t.dx0;
-          });
-      iceTransition(vis.selectAll("path"))
-          .attr("d", function(d) {
-            var s = d.source,
-                t = d.target;
-            return ribbonPath(s, t, tension);
-          })
-          .style("stroke-opacity", null);
-      iceTransition(vis.selectAll("text.icicle"))
-          .style("opacity", 1e-6).remove();
-      iceTransition(vis.selectAll("g.dimension rect, g.category")
-          .attr("visibility", null)
-          .style("opacity", 1e-6))
-          .style("opacity", 1);
-      iceTransition(vis.selectAll("text.dimension"))
-          .attr("transform", "translate(0,-25)");
-      vis.selectAll("tspan.sort").style("visibility", null);
-    }
-  };
-  d3.select("#icicle")
-      .on("change", icicle)
-      .each(icicle);
-});
-
-function iceTransition(g) {
-  return g.transition().duration(1000);
-}
-
-function ribbonPath(s, t, tension) {
-  var sx = s.node.x0 + s.x0,
-      tx = t.node.x0 + t.x0,
-      sy = s.dimension.y0,
-      ty = t.dimension.y0;
-  return (tension === 1 ? [
-      "M", [sx, sy],
-      "L", [tx, ty],
-      "h", t.dx,
-      "L", [sx + s.dx, sy],
-      "Z"]
-   : ["M", [sx, sy],
-      "C", [sx, m0 = tension * sy + (1 - tension) * ty], " ",
-           [tx, m1 = tension * ty + (1 - tension) * sy], " ", [tx, ty],
-      "h", t.dx,
-      "C", [tx + t.dx, m1], " ", [sx + s.dx, m0], " ", [sx + s.dx, sy],
-      "Z"]).join("");
-}
-
-function stopClick() { d3.event.stopPropagation(); }
-
-// Given a text function and width function, truncates the text if necessary to
-// fit within the given width.
-function truncateText(text, width) {
-  return function(d, i) {
-    var t = this.textContent = text(d, i),
-        w = width(d, i);
-    if (this.getComputedTextLength() < w) return t;
-    this.textContent = "…" + t;
-    var lo = 0,
-        hi = t.length + 1,
-        x;
-    while (lo < hi) {
-      var mid = lo + hi >> 1;
-      if ((x = this.getSubStringLength(0, mid)) < w) lo = mid + 1;
-      else hi = mid;
-    }
-    return lo > 1 ? t.substr(0, lo - 2) + "…" : "";
-  };
-}
-
-d3.select("#file").on("change", function() {
-  var file = this.files[0],
-      reader = new FileReader;
-  reader.onloadend = function() {
-    var csv = d3.csv.parse(reader.result);
-    vis.datum(csv).call(chart
-        .value(csv[0].hasOwnProperty("Number") ? function(d) { return +d.Number; } : 1)
-        .dimensions(function(d) { return d3.keys(d[0]).filter(function(d) { return d !== "Number"; }).sort(); }));
-  };
-  reader.readAsText(file);
-});
-</script>
-
+</body>
+</html>
