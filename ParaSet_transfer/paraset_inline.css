@@ -178,3 +178,35 @@ ul#dimensions_list{
   transform: translateY(2px);
 }
 button:focus {outline:0;}
+
+.rightMenu {
+    position:relative;
+    float:right;
+}
+
+.right-caret{
+    
+    border-bottom: 4px solid transparent;
+    border-top: 4px solid transparent;
+    border-left: 4px solid #000000;
+    display: inline-block;
+    height: 0;
+    opacity: 1;
+    vertical-align: top;
+    width: 0;
+    
+}
+
+.buck_right{
+    float:right;
+    left: 200px;
+    top: -30px;
+}
+.hiddenSlow{
+    visibility: hidden;
+    transition: 0.2s 1s;
+}
+.hidden{
+    visibility: hidden;
+}
+

@@ -1,9 +1,12 @@
+///////////////              Global Variables:
 //////// array of possible dimensions the user could chose to visualize
-var dimension_options = ["BattleNumber", "AttackerSizeApproximate","DefenderSizeApproximate","year", "attacker1",  "defender1", "AttackerOutcome", "BattleType","MajorDeath","MajorCapture","season","Location","region",]
+var dimension_options = ["BattleNumber", "AttackerSizeApproximate","DefenderSizeApproximate","year", "attacker1",  "defender1", "AttackerOutcome", "BattleType","MajorDeath","MajorCapture","season","location","region",]
 //////// array of dimensions, the user has chosen to visualize or are given as starting example
 var selected_options = ["AttackerSizeApproximate","year","season","region",]
-
-
+///// object consisting of dimension name: value name key:value pairs - these limit the CSV to only rows that have these dimension:value pairs.
+var limitations = {"region":"The North","year":"299"}
+var uniqueValuesForEachDimensionArrayOfObj = [];
+var recent_hover = ""
 /////////////   replaces all examples of a certain character in a string
 function findAndReplace(string, target, replacement) {
  var i = 0, length = string.length;
@@ -32,62 +35,300 @@ function removeA(arr) {
     return arr;
 }
 
+ //// function that takes the dimension unformatted and finds the array object number of the array of objects
+    //// of all unique values for each dimension that matches it
+    ///// returns the array object number to match.... 
+    function findArrayObjNumber(dimension, array_unique_values_for_each_dimension){
+      for (each in array_unique_values_for_each_dimension){
+
+        if (Object.keys(array_unique_values_for_each_dimension[each])[0] === dimension || Object.keys(array_unique_values_for_each_dimension[each])[1] === dimension || Object.keys(array_unique_values_for_each_dimension[each]) === dimension){
+          /// this is the array number of the input array that matches:
+          console.log("findArrayObjNumber() each =",each)
+          return each
+        }
+        else{
+          console.log("did not find a match in findArrayObjNumber(): Location is ",dimension," array_unique_values_for_each_dimension is ",array_unique_values_for_each_dimension)
+        }
+      }
+    }
+
+
+
 /////// builds drop-down options as li 
 function build_dd_list(dimension_options,selected_options){
   $("ul#dimensions_list").empty()
+  //// get data from d3(csv) function but use here not in main chart build, as my brain is jello at current time
+  //// this is probably a really bad way to do things: cheatThrowAway();
+  // var uniqueValueForDimensions = cheatThrowAway();
+  // console.log("uniqueValueForDimensions in build_dd_list()",uniqueValueForDimensions)
   for (dimension in dimension_options){
     var checked_class = "not_checked";
     console.log("build_dd_list check array thing missing words, ", dimension_options[dimension])
     if (selected_options.indexOf(dimension_options[dimension]) !== -1){
       checked_class = "checked"
     }
-  var dimension_id = String(dimension_options[dimension]);
-  console.log("type = ", typeof(dimension_id))
-  console.log("dimension_id=",dimension_id)
-  dimension_id = findAndReplace(dimension_id," ","_")
-  console.log("dimension_id=",dimension_id)
-  $("ul#dimensions_list").append("<li><a id="+dimension_id+" class=' "+checked_class+" dimensions '"+">"+dimension_id+"</a></li>")
+    var dimension_id = String(dimension_options[dimension]);
+    console.log("type = ", typeof(dimension_id))
+    console.log("dimension_id=",dimension_id)
+    dimension_id = findAndReplace(dimension_id," ","_")
+    console.log("dimension_id=",dimension_id)
+    $("ul#dimensions_list").append("<li id="+dimension_id+" class='diemnsions'><a id="+dimension_id+" class=' "+checked_class+" dimensions '"+">"+dimension_id+"</a></li>")
+    //// added this newer still!, might break everything?
+    $("li#"+dimension_id).append("<ul class="+dimension_id+" hidden dim_values></ul>");
+    //// cycles over each unique value in the dimension the above for loop is currently on?
+    // console.log("uniqueValuesForEachDimensionArrayOfObj - ",uniqueValuesForEachDimensionArrayOfObj)
+    // console.log("dimension=",dimension);
+
+    // console.log("uniqueValuesForEachDimensionArrayOfObj[dimension] =",uniqueValuesForEachDimensionArrayOfObj[dimension]);
+    // console.log("uniqueValuesForEachDimensionArrayOfObj[dimension][dimension_options[dimension] =",uniqueValuesForEachDimensionArrayOfObj[dimension][dimension_options[dimension]]);
+    
+
+    //// function that takes the dimension unformatted and finds the array object number of the array of objects
+    //// of all unique values for each dimension that matches it
+    var arrayNumber = findArrayObjNumber(dimension_options[dimension], uniqueValuesForEachDimensionArrayOfObj);
+    console.log("arrayNumber is, ",arrayNumber)
+
+
+
+
+    var this_key =Object.keys(uniqueValuesForEachDimensionArrayOfObj[arrayNumber])
+    // console.log("this_key =", this_key);
+    var current_dim_array = uniqueValuesForEachDimensionArrayOfObj[arrayNumber][this_key]
+    // console.log("! current_dim_array= ",current_dim_array)
+    for (eachUniqueDimValue in current_dim_array){
+      var UniqueDimValue = current_dim_array[eachUniqueDimValue];
+      // var DimUvalFormat = findAndReplace(String(UniqueDimValue)," ","_")
+      var DimUvalFormat = UniqueDimValue
+      $("ul."+dimension_id).append("<li id="+DimUvalFormat+" class=' buck_right "+dimension_id+" hidden'><a id="+DimUvalFormat+" class='checkers "+checked_class+" dimensions '"+">"+DimUvalFormat+"</a></li>")
+    }
+    initiateClickers();
   }
+
+
+
+
 };
 
 ////////// listens for when document is ready and builds drop-down options as li using the function above, build_dd_list
-$(document).ready(function(){
-  build_dd_list(dimension_options,selected_options)
-})
+// $(document).ready(function(){
+//   build_dd_list(dimension_options,selected_options)
+// })
 
 ///// when document ready, this handles the user interface of clicks resulting in 
 ///// changing CSS classes and putting items in and out of the selected diemnsions array
-$(document).ready(function(){
-  $("li a.dimensions").click(function(){
-    var nonsense = $(this).hasClass("not_checked");
-    if ($(this).hasClass("not_checked")===true){
-      $(this).removeClass("not_checked");
-      $(this).addClass("checked");
-      var id_helper = $(this).attr('id')
-      // id_helper = id_helper.split('_').join(" ");
-      id_helper = findAndReplace(id_helper,"_"," ")
-      selected_options.push(id_helper);
-    }
-    else{
-      $(this).addClass("not_checked");
-      $(this).removeClass("checked");
-      var id_helper = $(this).attr('id')
-      id_helper = findAndReplace(id_helper,"_"," ")
-      removeA(selected_options, id_helper);
-    }
-    
-    selected_options = uniq(selected_options);
-    console.log("check ",nonsense)
-    console.log("check selected_options ", selected_options)
-  })
 
-  $("li a.dimensions").mousedown(function(){
-    $(this).addClass("mouseD")
+function initiateClickers(){
+    $(document).ready(function(){
+    $("li a.dimensions").click(function(){
+      var nonsense = $(this).hasClass("not_checked");
+      if ($(this).hasClass("not_checked")===true){
+        $(this).removeClass("not_checked");
+        $(this).addClass("checked");
+        var id_helper = $(this).attr('id')
+        // id_helper = id_helper.split('_').join(" ");
+        id_helper = findAndReplace(id_helper,"_"," ")
+        selected_options.push(id_helper);
+      }
+      else{
+        $(this).addClass("not_checked");
+        $(this).removeClass("checked");
+        var id_helper = $(this).attr('id')
+        id_helper = findAndReplace(id_helper,"_"," ")
+        removeA(selected_options, id_helper);
+      }
+      
+      selected_options = uniq(selected_options);
+      console.log("check ",nonsense)
+      console.log("check selected_options ", selected_options)
+    })
+
+    $("li a.dimensions").mousedown(function(){
+      $(this).addClass("mouseD")
+    })
+    $("li a.dimensions").mouseup(function(){
+      console.log("test")
+      $(this).removeClass("mouseD")
+    })
+    $("li a.dimensions, li.dimensions").mouseenter(function(){
+      console.log("mouseover")
+      var current_dim_id = $(this).attr('id');
+      console.log("current_dim_id",current_dim_id)
+      $("ul."+current_dim_id).removeClass("hidden");
+      $("li."+current_dim_id).removeClass("hidden");
+      recent_hover = current_dim_id;
+    })
+    $("ul."+recent_hover).mouseenter(function(){
+      $("ul."+current_dim_id).removeClass("hidden");
+      $("li."+current_dim_id).removeClass("hidden");
+    })
+    $("ul."+recent_hover).mouseenter(function(){
+      $("ul."+current_dim_id).addClass("hidden");
+      $("li."+current_dim_id).addClass("hidden");
+    })
+    $("li a.dimensions").mouseleave(function(){
+      var current_dim_id = $(this).attr('id');
+      console.log("dimension hovered over",current_dim_id)
+      $("ul."+current_dim_id).addClass("hidden");
+      $("li."+current_dim_id).addClass("hidden");
+      recent_hover = current_dim_id;
+    })
+    // $("ul.dim_values").mouseover(function(){
+    //    $(this).removeClass("hidden")
+    //    $("ul.dimensions").removeClass("hidden");
+    //    $("li.dimensions").removeClass("hidden");
+    //    $("li#dimensions_list").removeClass("hidden");
+    //  })
+    // $("ul.dim_values").mouseout(function(){
+    //    $(this).addClass("hidden")
+    //  })
+    // $("ul.dim_values").mouseout(function(){
+    //    $(this).addClass("hidden")
+    //  })
+    $("li a.dimensions ul").mouseover(function(){
+      console.log("mouseleave")
+      var current_dim_id = $(this).attr('id');
+      console.log("current_dim_id",current_dim_id)
+      // $("li a.dimensions").
+      // ul#dimensions_list
+      $("ui#dimensions_list").removeClass("hidden");
+      $("ul."+current_dim_id).removeClass("hidden");
+      $("li."+current_dim_id).removeClass("hidden");
+    })
   })
-  $("li a.dimensions").mouseup(function(){
-    $(this).removeClass("mouseD")
-  })
-})
+}
+
+
+
+
+//// this function returns an array based on the d3 imported CSV where
+//// the returned array is limited to a subset of rows where specific dimensions (aka columns) match a given value
+function limitToOne(arrayCSV, limitations){
+  temp_array = [];
+  var limitationsKeysArray = Object.keys(limitations)
+  for (each in arrayCSV[0][0]["__data__"]){
+    row = arrayCSV[0][0]["__data__"][each]
+    //// limitations is a variable that is an object of objects consisting of 
+    //// key:value pairs of diemension name:dimension value
+    var foundMatchHelper = "no"
+    var foundMatch = [];
+    for (each2 in limitationsKeysArray){
+      if (row[limitationsKeysArray[each2]] === limitations[limitationsKeysArray[each2]]){
+        foundMatch.push("yes")
+      }
+    }
+    // console.log("foundMatch array = ",foundMatch, "and length = ",foundMatch.length);
+    for (tester in foundMatch){
+      if (foundMatch[tester] === "yes"){
+        foundMatchHelper = "yes";
+      }
+    }
+    if (foundMatch.length === limitationsKeysArray.length){
+        temp_array.push(row)
+        // console.log("temp_array",temp_array)
+    }
+  }
+  arrayCSV[0][0]["__data__"] = temp_array;
+  // console.log("*** result returned is ",arrayCSV[0][0]["__data__"]);
+  return arrayCSV
+}
+
+
+// function cheatThrowAway(){
+//   d3.csv("ParaSet_transfer/titanic.csv", function(error, csv) {
+//     // console.log("* vis.datum(csv)= ",vis.datum(csv));
+//     // resultArray = limitToOne(vis.datum(csv), limitations);
+//     // console.log("* * vis.datum(csv)= ",resultArray);
+//     console.log("csv = ",csv)
+//     var build_uniqueValueForDimension = build_uniqueValueForDimension2(csv);
+//     console.log("cheatThrowAway() - build_uniqueValueForDimension = ",build_uniqueValueForDimension)
+//     return build_uniqueValueForDimension
+//   })
+// }
+
+
+ function build_uniqueValueForDimension2(arrayCSV){
+  var initialDimensionsObject = arrayCSV[0];
+  var dimensions_names_array = Object.keys(initialDimensionsObject)
+  
+  ///// creates an object of dimensions as keys, with an empty array as values
+  var DimensionsArray = []
+  for (eachDim in dimensions_names_array){
+    var dim_obj_temp = {};
+    dim_obj_temp[dimensions_names_array[eachDim]] = []
+    DimensionsArray.push(dim_obj_temp);
+  }
+  console.log("# DimensionsArray =", DimensionsArray);
+  ///// goes through each row of data & adds the value to the array value for each dimension key
+  for (eachRow in arrayCSV){
+    for(eachDimension in dimensions_names_array){
+      console.log(" #DimensionsArray = ",DimensionsArray);
+      console.log("# DimensionsArray[eachDimension][dimensions_names_array[eachDimension]] = ",DimensionsArray[eachDimension][dimensions_names_array[eachDimension]]);
+      DimensionsArray[eachDimension][dimensions_names_array[eachDimension]].push(arrayCSV[eachRow][dimensions_names_array[eachDimension]])
+    }
+  }
+  for (eachDimensionObject in dimensions_names_array){
+    var array_of_a_dimension = DimensionsArray[dimensions_names_array[eachDimensionObject]]
+    console.log("# DimensionsArray =",DimensionsArray)
+    console.log("# dimensions_names_array[eachDimensionObject] =",dimensions_names_array[eachDimensionObject])
+    console.log("# DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] =",DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
+    
+    DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
+
+    // DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(array_of_a_dimension)
+  }
+  var uniqueValuesForEachDimensionArrayOfObj = DimensionsArray
+  console.log(" # #uniqueValuesForEachDimensionArrayOfObj = ",uniqueValuesForEachDimensionArrayOfObj)
+  return uniqueValuesForEachDimensionArrayOfObj
+}
+
+
+// ///////////////// returns array of only unique items in the given array
+// function uniq(a) {
+//     return a.sort().filter(function(item, pos, ary) {
+//         return !pos || item != ary[pos - 1];
+//     })
+// }
+///// builds array where a given dimension is the key and value is an array of unique values for that dimension:
+///// assumes each row in input CSV has the same number and type of dimensions, which should be valid assumption.
+///// also assuming the structure of the input stays the same, which I think will be true?
+/////// this should be called once, then used to build drop-down to right of main one?
+function build_uniqueValueForDimension(arrayCSV){
+  var initialDimensionsObject = arrayCSV[0][0]["__data__"][0];
+  var dimensions_names_array = Object.keys(initialDimensionsObject)
+  
+  ///// creates an object of dimensions as keys, with an empty array as values
+  var DimensionsArray = []
+  for (eachDim in dimensions_names_array){
+    var dim_obj_temp = {};
+    dim_obj_temp[dimensions_names_array[eachDim]] = []
+    DimensionsArray.push(dim_obj_temp);
+  }
+  console.log("DimensionsArray =", DimensionsArray);
+  ///// goes through each row of data & adds the value to the array value for each dimension key
+  for (eachRow in arrayCSV[0][0]["__data__"]){
+    for(eachDimension in dimensions_names_array){
+      console.log("DimensionsArray = ",DimensionsArray);
+      console.log("$ DimensionsArray[eachDimension][dimensions_names_array[eachDimension]] = ",DimensionsArray[eachDimension][dimensions_names_array[eachDimension]]);
+      DimensionsArray[eachDimension][dimensions_names_array[eachDimension]].push(arrayCSV[0][0]["__data__"][eachRow][dimensions_names_array[eachDimension]])
+    }
+  }
+  for (eachDimensionObject in dimensions_names_array){
+    var array_of_a_dimension = DimensionsArray[dimensions_names_array[eachDimensionObject]]
+    console.log("% DimensionsArray =",DimensionsArray)
+    console.log("% dimensions_names_array[eachDimensionObject] =",dimensions_names_array[eachDimensionObject])
+    console.log("% DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] =",DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
+    
+    DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
+
+    // DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(array_of_a_dimension)
+  }
+  uniqueValuesForEachDimensionArrayOfObj = DimensionsArray
+  console.log("X uniqueValuesForEachDimensionArrayOfObj = ",uniqueValuesForEachDimensionArrayOfObj)
+  // return uniqueValuesForEachDimensionArrayOfObj
+  return build_dd_list(dimension_options,selected_options)
+}
+
+
 
 //////////////////////////////////////////  
 
@@ -131,8 +372,14 @@ function build_parallel_sets(curves_checkbox){
   // }
 
   d3.csv("ParaSet_transfer/titanic.csv", function(error, csv) {
-    vis.datum(csv).call(chart);
-
+    console.log("* vis.datum(csv)= ",vis.datum(csv));
+    resultArray = limitToOne(vis.datum(csv), limitations);
+    console.log("* * vis.datum(csv)= ",resultArray);
+    build_uniqueValueForDimension(vis.datum(csv));
+    // build_dd_list(dimension_options,selected_options)
+    resultArray.call(chart);
+    // vis.datum(csv).call(chart);
+    console.log("* anything")
     window.icicle = function() {
       var newIce = this.checked,
           tension = chart.tension();
@@ -140,9 +387,14 @@ function build_parallel_sets(curves_checkbox){
       if (ice = newIce) {
         var dimensions = [];
         vis.selectAll("g.dimension")
-           .each(function(d) { dimensions.push(d); });
+           .each(function(d) {
+            console.log("* d in dimension =",d) 
+            dimensions.push(d); });
         dimensions.sort(function(a, b) { return a.y - b.y; });
-        var root = d3.parsets.tree({children: {}}, csv, dimensions.map(function(d) { return d.name; }), function() { return 1; }),
+        var root = d3.parsets.tree({children: {}}, csv, dimensions.map(function(d) { 
+          console.log("* - d.name", d.name)
+          return d.name; }), function() { return 1; }),
+          
             nodes = partition(root),
             nodesByPath = {};
         nodes.forEach(function(d) {
