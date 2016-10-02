@@ -112,6 +112,19 @@ pre, code { font-family: "Menlo", monospace; }
   ul li a.not_checked{
     background: gray;
   }
+
+
+/*  .checked{
+    background: #EB9394;
+  }
+  .not_checked{
+    background: gray;
+  }
+
+*/
+
+
+
    ul li a.mouseD{
     color:red;
     background: #EB9394;
@@ -199,8 +212,8 @@ button:focus {outline:0;}
 
 .buck_right{
     float:right;
-    left: 200px;
-    top: -30px;
+    left: 205px;
+    top: -28px;
 }
 .hiddenSlow{
     visibility: hidden;

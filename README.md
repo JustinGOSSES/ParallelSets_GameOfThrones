@@ -1,14 +1,22 @@
-# d3.parsets_Plus
+# d3.parsets_PlusUI
 
 An interactive parallel sets visualisation for D3.js.
 
-Justin Gosses : Small additions to the CSS. Major improvement was addition of UI to select which categories to show of a large list, which hopefully will deal with the major problem of parallel sets, which is they become too cluttered too quickly.
+####Parallel Set Visualizations are a great way to show relationships and distribution in a dataset with many shared categorical data dimensions, but they can quickly become a visual mess if they have too many dimensions or too many unique categories for each dimension. 
 
-This is a further progression on d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
+#### This is an attempt to minimize that problem by adding some UI features that let the user :
+####    1. Choose which dimensions to show
+####    2. Limit the data shown to data that matches certain values for certain dimensions
+
+#### These changes move this parallel set visualization into more a data exploration tool. 
+
+This is an improvement / alternative that builds upon a previous version by Jason Davies, who built d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
 which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz.
 
 =====================================================
 Documentation below directly copied from https://github.com/jasondavies/d3-parsets
+
+This code applies to the d3.parsets.js file
 
 ## API
 
