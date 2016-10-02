@@ -4,7 +4,6 @@ var dimension_options = ["BattleNumber", "AttackerSizeApproximate","DefenderSize
 //////// array of dimensions, the user has chosen to visualize or are given as starting example
 var selected_options = ["AttackerSizeApproximate","year","season","region",]
 ///// object consisting of dimension name: value name key:value pairs - these limit the input CSV values to only rows that have these dimension:value pairs.
-///// items are added this like, key:[values] or dimension_name:[dimension_item_1, dimension_item_2]
 var limitations = {}
 ///// array of all unique values for each dimension, used to populate secondary drop-down menu
 var uniqueValuesForEachDimensionArrayOfObj = [];
@@ -39,47 +38,10 @@ function removeA(arr) {
     return arr;
 }
 
-////////////////// function that changes limits to all in or all out if a dimension drop-down is clicked:
-function checkIfDimSelectChangeLimit(dimension){
-  /// handles dimension already checked that is now clicked:
-  if(selected_options[dimension]){
-    for (each in selected_options){
-      if(selected_options[each]===dimension){
-        limitations[dimension] = [];
-      }
-    }
-  }
-  else if(typeof(selected_options[dimension])==="undefined"){
-    console.log("yyy yy dimension in func checkIfDimSelectChangeLimit(dimension) =",dimension)
-    popLimitObjForDim(dimension);
-  }
-  else{console.log("PROBLEM SHOULD HAVE BEEN ONE OR OTHER IN checkIfDimSelectChangeLimit")}
-}
-
 
 ///////////// function that adds all unique items for a given dimension to its limitation object key:value pair
 function popLimitObjForDim(dimension){
-  // var dimension_id = String(dimension);
-  //   console.log("zz z type = ", typeof(dimension_id))
-  console.log("zz z dimension_id=",dimension)
-  //   dimension_id = findAndReplace(dimension_id," ","_")
-  var arrayNumber = findArrayObjNumber(dimension, uniqueValuesForEachDimensionArrayOfObj);
-    console.log("arrayNumber is, ",arrayNumber)
-    var this_key =Object.keys(uniqueValuesForEachDimensionArrayOfObj[arrayNumber])
-    // console.log("this_key =", this_key);
-    var current_dim_array = uniqueValuesForEachDimensionArrayOfObj[arrayNumber][this_key]
-    // console.log("! current_dim_array= ",current_dim_array)
-    // var DimFormat = findAndReplace(String(dimension)," ","_")
-    limitations[dimension] = [];
-    for (eachUniqueDimValue in current_dim_array){
-      var UniqueDimValue = current_dim_array[eachUniqueDimValue];
-      //var DimUvalFormat = findAndReplace(String(UniqueDimValue)," ","_")
-      console.log("limitations,",limitations);
-      console.log("DimUvalFormat,",UniqueDimValue);
-      limitations[dimension].push(UniqueDimValue)
-      }
-
-    console.log("zz print limitations,",limitations)
+  limitations[dimension] = uniqueValuesForEachDimensionArrayOfObj[dimension]
 }
 
 
@@ -144,24 +106,18 @@ function build_dd_list(dimension_options,selected_options){
     // console.log("! current_dim_array= ",current_dim_array)
     for (eachUniqueDimValue in current_dim_array){
       var UniqueDimValue = current_dim_array[eachUniqueDimValue];
-      var DimUvalFormat = findAndReplace(String(UniqueDimValue)," ","_")
-      ////////////////  commented this out as it was problematically given words with spaces as id!
-      ///  var DimUvalFormat = UniqueDimValue
-      console.log("yyy yy checker, DimUvalFormat=",DimUvalFormat)
-      console.log("yyy yy checker, dimension_id=",dimension_id)
+      // var DimUvalFormat = findAndReplace(String(UniqueDimValue)," ","_")
+      var DimUvalFormat = UniqueDimValue
       $("ul."+dimension_id).append("<li id="+DimUvalFormat+" dimensions="+dimension_id+" class=' buck_right "+dimension_id+" hidden'><a id="+dimension_id+" class='checkers "+checked_class+" dimensions_ITEMS '"+">"+DimUvalFormat+"</a></li>")
     }
      console.log("zz limitations,",limitations,"type of limitations,",typeof(limitations))
      console.log("zz uniqueValuesForEachDimensionArrayOfObj,",uniqueValuesForEachDimensionArrayOfObj,"type of uniqueValuesForEachDimensionArrayOfObj,",typeof(uniqueValuesForEachDimensionArrayOfObj))
     // popLimitObjForDim(dimension_options[dimension])
-
     initiateClickers();
   }
 
 
-  for (dimension in dimension_options){
-    popLimitObjForDim(dimension_options[dimension])
-  }
+
 
 };
 
@@ -184,22 +140,21 @@ function initiateClickers(){
         var id_helper_orig = $(this).attr('id')
         // id_helper = id_helper.split('_').join(" ");
         id_helper = findAndReplace(id_helper_orig,"_"," ")
-        checkIfDimSelectChangeLimit(id_helper)
         selected_options.push(id_helper);
         //// things below this line in this function affect dimension items:
         console.log("getting id from click li", $(this).attr('id'))
         // $(this).find("li.buck_right").addClass("checked");
         $("li a#"+id_helper_orig).addClass("checked");
         $("li a#"+id_helper_orig).removeClass("not_checked");
-         console.log("zz print limitations,",limitations)
         event.stopPropagation();
+
       }
       else{
+
         $(this).addClass("not_checked");
         $(this).removeClass("checked");
         var id_helper_orig = $(this).attr('id')
         id_helper = findAndReplace(id_helper_orig,"_"," ")
-        checkIfDimSelectChangeLimit(id_helper)
         removeA(selected_options, id_helper);
         //// things below this line in this function affect dimension items:
         console.log("getting id from click li", $(this).attr('id'))
@@ -209,8 +164,6 @@ function initiateClickers(){
            // $("ul."+current_dim_id).addClass("hidden");
          $("li a#"+id_helper_orig).addClass("not_checked");
          $("li a#"+id_helper_orig).removeClass("checked");
-         
-          console.log("zz print limitations,",limitations)
          event.stopPropagation();
 
 
@@ -228,7 +181,6 @@ function initiateClickers(){
     })
     $("li a.dimensions").mouseup(function(){
       // console.log("test")
-       console.log("zz print limitations,",limitations)
       $(this).removeClass("mouseD")
     })
     /////// removes items when hovered over
@@ -246,7 +198,6 @@ function initiateClickers(){
       // $("ul."+current_dim_id).addClass("hidden");
       $("li.buck_right."+current_dim_id).addClass("hidden");
       recent_hover = current_dim_id;
-       console.log("zz print limitations,",limitations)
     })
     $("li.dimensions").mouseleave(function(){
       var current_dim_id = $(this).attr('id');
@@ -258,26 +209,20 @@ function initiateClickers(){
     $("li.buck_right").unbind().click(function(){
       var current_dim_id = $(this).attr('dimensions');
       var current_dim_value_id = $(this).attr('id');
-      console.log("yyy yy current_dim_id ",current_dim_id)
-      console.log("yyy yy typeof(current_dim_id) ",typeof(current_dim_id))
-      console.log("yyy yy current_dim_value_id ",current_dim_value_id)
-      console.log("yyy yy typeof(current_dim_value_id) ",typeof(current_dim_value_id))
+      console.log("current_dim_id ",current_dim_id)
+      console.log("typeof(current_dim_id) ",typeof(current_dim_id))
+      console.log("current_dim_value_id ",current_dim_value_id)
+      console.log("typeof(current_dim_value_id) ",typeof(current_dim_value_id))
       var current_dim_id_unform = findAndReplace(current_dim_id,"_"," ");
       var current_dim_value_id_unform = findAndReplace(current_dim_value_id,"_"," ");
-      console.log("yyy yy limitations[current_dim_id_unform]",limitations[current_dim_id_unform])
-
       if (limitations[current_dim_id_unform]){
-        /// checker helper
         var present_before = "no"
         for (each in limitations[current_dim_id_unform]){
-          if(limitations[current_dim_id_unform][each] === current_dim_value_id_unform){
-            console.log("yyy yy limitations[current_dim_id_unform]",limitations[current_dim_id_unform])
+          if(limitations[current_dim_id_unform][each] === current_dim_value_id){
             limitations[current_dim_id_unform].splice(each, 1);
-            console.log("yyy yy 2 limitations[current_dim_id_unform]",limitations[current_dim_id_unform])
-
             present_before = "yes";
-            console.log("yyy present_before = ", present_before)
-            console.log("yyy check limitations dimension array after splice, = ",limitations[current_dim_id_unform])
+            console.log("present_before = ", present_before)
+            console.log("check limitations dimension array after splice, = ",limitations[current_dim_id_unform])
           }
         }
         if (present_before === "no"){
@@ -292,7 +237,7 @@ function initiateClickers(){
         limitations[current_dim_id_unform].push(current_dim_value_id_unform)
       }
       limitations[current_dim_id_unform] = uniq(limitations[current_dim_id_unform])
-      console.log("zz z check limitations: ",limitations)
+      console.log("check limitations: ",limitations)
       if ($(this).children("a").hasClass("not_checked")===true){
         $(this).children("a").removeClass("not_checked");
         $(this).children("a").addClass("checked");
@@ -301,11 +246,11 @@ function initiateClickers(){
         $(this).children("a").removeClass("checked");
         $(this).children("a").addClass("not_checked");
       }
-      console.log("zz z check limitations dimension array after splice, = ",limitations[current_dim_id_unform])
+      console.log("check limitations dimension array after splice, = ",limitations[current_dim_id_unform])
 
-      console.log("zz z has class checked test",$(this).hasClass("checked")===true)
+      console.log("has class checked test",$(this).hasClass("checked")===true)
       
-       console.log("zz z print limitations,",limitations)
+
     })
   })
 }
@@ -319,43 +264,43 @@ function initiateClickers(){
 
 //// reference:   var limitations = {"region":["The North"],"year":["299","298"]}
 
-// //// this function returns an array based on the d3 imported CSV where
-// //// the returned array is limited to a subset of rows where specific dimensions (aka columns) match a given value
-// function limitToOne(arrayCSV, limitations){
-//   temp_array = [];
-//   var limitationsKeysArray = Object.keys(limitations)
-//   for (each in arrayCSV[0][0]["__data__"]){
-//     row = arrayCSV[0][0]["__data__"][each]
-//     //// limitations is a variable that is an object of objects consisting of 
-//     //// key:value pairs of diemension name:dimension value
-//     var foundMatchHelper = "no"
-//     var foundMatch = [];
-//     for (each2 in limitationsKeysArray){
-//       for (eachValue in limitations[limitationsKeysArray[each2]]){
-//           if (row[limitationsKeysArray[each2]] === limitations[limitationsKeysArray[each2]][eachValue]){
-//           foundMatch.push("yes")
-//         }
-//       }
-//     }
-//     // console.log("foundMatch array = ",foundMatch, "and length = ",foundMatch.length);
-//     for (tester in foundMatch){
-//       if (foundMatch[tester] === "yes"){
-//         foundMatchHelper = "yes";
-//       }
-//     }
-//     if (foundMatch.length === limitationsKeysArray.length){
-//         temp_array.push(row)
-//         // console.log("temp_array",temp_array)
-//     }
-//   }
-//   console.log("* * temp_array",temp_array)
-//   var New_arrayCSV = arrayCSV;
-//   New_arrayCSV[0][0]["__data__"] = [];
-//   New_arrayCSV[0][0]["__data__"] = temp_array;
-//   console.log("* * result returned is ",New_arrayCSV[0][0]["__data__"]);
-//   console.log("* * * result returned is ",New_arrayCSV);
-//   return New_arrayCSV
-// }
+//// this function returns an array based on the d3 imported CSV where
+//// the returned array is limited to a subset of rows where specific dimensions (aka columns) match a given value
+function limitToOne(arrayCSV, limitations){
+  temp_array = [];
+  var limitationsKeysArray = Object.keys(limitations)
+  for (each in arrayCSV[0][0]["__data__"]){
+    row = arrayCSV[0][0]["__data__"][each]
+    //// limitations is a variable that is an object of objects consisting of 
+    //// key:value pairs of diemension name:dimension value
+    var foundMatchHelper = "no"
+    var foundMatch = [];
+    for (each2 in limitationsKeysArray){
+      for (eachValue in limitations[limitationsKeysArray[each2]]){
+          if (row[limitationsKeysArray[each2]] === limitations[limitationsKeysArray[each2]][eachValue]){
+          foundMatch.push("yes")
+        }
+      }
+    }
+    // console.log("foundMatch array = ",foundMatch, "and length = ",foundMatch.length);
+    for (tester in foundMatch){
+      if (foundMatch[tester] === "yes"){
+        foundMatchHelper = "yes";
+      }
+    }
+    if (foundMatch.length === limitationsKeysArray.length){
+        temp_array.push(row)
+        // console.log("temp_array",temp_array)
+    }
+  }
+  console.log("* * temp_array",temp_array)
+  var New_arrayCSV = arrayCSV;
+  New_arrayCSV[0][0]["__data__"] = [];
+  New_arrayCSV[0][0]["__data__"] = temp_array;
+  console.log("* * result returned is ",New_arrayCSV[0][0]["__data__"]);
+  console.log("* * * result returned is ",New_arrayCSV);
+  return New_arrayCSV
+}
 
 
 //// this function returns an array based on the d3 imported CSV where
@@ -398,77 +343,77 @@ function limitToSomeNew(arrayCSV, limitations){
 
 
 
-// //// this function returns an array based on the d3 imported CSV where
-// //// the returned array is limited to a subset of rows where specific dimensions (aka columns) match a given value
-// function OLD_limitToOne(arrayCSV, limitations){
-//   temp_array = [];
-//   var limitationsKeysArray = Object.keys(limitations)
-//   for (each in arrayCSV[0][0]["__data__"]){
-//     row = arrayCSV[0][0]["__data__"][each]
-//     //// limitations is a variable that is an object of objects consisting of 
-//     //// key:value pairs of diemension name:dimension value
-//     var foundMatchHelper = "no"
-//     var foundMatch = [];
-//     for (each2 in limitationsKeysArray){
-//       if (row[limitationsKeysArray[each2]] === limitations[limitationsKeysArray[each2]]){
-//         foundMatch.push("yes")
-//       }
-//     }
-//     // console.log("foundMatch array = ",foundMatch, "and length = ",foundMatch.length);
-//     for (tester in foundMatch){
-//       if (foundMatch[tester] === "yes"){
-//         foundMatchHelper = "yes";
-//       }
-//     }
-//     if (foundMatch.length === limitationsKeysArray.length){
-//         temp_array.push(row)
-//         // console.log("temp_array",temp_array)
-//     }
-//   }
-//   arrayCSV[0][0]["__data__"] = temp_array;
-//   // console.log("*** result returned is ",arrayCSV[0][0]["__data__"]);
-//   return arrayCSV
-// }
+//// this function returns an array based on the d3 imported CSV where
+//// the returned array is limited to a subset of rows where specific dimensions (aka columns) match a given value
+function OLD_limitToOne(arrayCSV, limitations){
+  temp_array = [];
+  var limitationsKeysArray = Object.keys(limitations)
+  for (each in arrayCSV[0][0]["__data__"]){
+    row = arrayCSV[0][0]["__data__"][each]
+    //// limitations is a variable that is an object of objects consisting of 
+    //// key:value pairs of diemension name:dimension value
+    var foundMatchHelper = "no"
+    var foundMatch = [];
+    for (each2 in limitationsKeysArray){
+      if (row[limitationsKeysArray[each2]] === limitations[limitationsKeysArray[each2]]){
+        foundMatch.push("yes")
+      }
+    }
+    // console.log("foundMatch array = ",foundMatch, "and length = ",foundMatch.length);
+    for (tester in foundMatch){
+      if (foundMatch[tester] === "yes"){
+        foundMatchHelper = "yes";
+      }
+    }
+    if (foundMatch.length === limitationsKeysArray.length){
+        temp_array.push(row)
+        // console.log("temp_array",temp_array)
+    }
+  }
+  arrayCSV[0][0]["__data__"] = temp_array;
+  // console.log("*** result returned is ",arrayCSV[0][0]["__data__"]);
+  return arrayCSV
+}
 
 
 
-// ///// builds array where a given dimension is the key and value is an array of unique values for that dimension:
-// ///// assumes each row in input CSV has the same number and type of dimensions, which should be valid assumption.
-// ///// also assuming the structure of the input stays the same, which I think will be true?
-//  function build_uniqueValueForDimension2(arrayCSV){
-//   var initialDimensionsObject = arrayCSV[0];
-//   var dimensions_names_array = Object.keys(initialDimensionsObject)
+///// builds array where a given dimension is the key and value is an array of unique values for that dimension:
+///// assumes each row in input CSV has the same number and type of dimensions, which should be valid assumption.
+///// also assuming the structure of the input stays the same, which I think will be true?
+ function build_uniqueValueForDimension2(arrayCSV){
+  var initialDimensionsObject = arrayCSV[0];
+  var dimensions_names_array = Object.keys(initialDimensionsObject)
   
-//   ///// creates an object of dimensions as keys, with an empty array as values
-//   var DimensionsArray = []
-//   for (eachDim in dimensions_names_array){
-//     var dim_obj_temp = {};
-//     dim_obj_temp[dimensions_names_array[eachDim]] = []
-//     DimensionsArray.push(dim_obj_temp);
-//   }
-//   console.log("# DimensionsArray =", DimensionsArray);
-//   ///// goes through each row of data & adds the value to the array value for each dimension key
-//   for (eachRow in arrayCSV){
-//     for(eachDimension in dimensions_names_array){
-//       console.log(" #DimensionsArray = ",DimensionsArray);
-//       console.log("# DimensionsArray[eachDimension][dimensions_names_array[eachDimension]] = ",DimensionsArray[eachDimension][dimensions_names_array[eachDimension]]);
-//       DimensionsArray[eachDimension][dimensions_names_array[eachDimension]].push(arrayCSV[eachRow][dimensions_names_array[eachDimension]])
-//     }
-//   }
-//   for (eachDimensionObject in dimensions_names_array){
-//     var array_of_a_dimension = DimensionsArray[dimensions_names_array[eachDimensionObject]]
-//     console.log("# DimensionsArray =",DimensionsArray)
-//     console.log("# dimensions_names_array[eachDimensionObject] =",dimensions_names_array[eachDimensionObject])
-//     console.log("# DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] =",DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
+  ///// creates an object of dimensions as keys, with an empty array as values
+  var DimensionsArray = []
+  for (eachDim in dimensions_names_array){
+    var dim_obj_temp = {};
+    dim_obj_temp[dimensions_names_array[eachDim]] = []
+    DimensionsArray.push(dim_obj_temp);
+  }
+  console.log("# DimensionsArray =", DimensionsArray);
+  ///// goes through each row of data & adds the value to the array value for each dimension key
+  for (eachRow in arrayCSV){
+    for(eachDimension in dimensions_names_array){
+      console.log(" #DimensionsArray = ",DimensionsArray);
+      console.log("# DimensionsArray[eachDimension][dimensions_names_array[eachDimension]] = ",DimensionsArray[eachDimension][dimensions_names_array[eachDimension]]);
+      DimensionsArray[eachDimension][dimensions_names_array[eachDimension]].push(arrayCSV[eachRow][dimensions_names_array[eachDimension]])
+    }
+  }
+  for (eachDimensionObject in dimensions_names_array){
+    var array_of_a_dimension = DimensionsArray[dimensions_names_array[eachDimensionObject]]
+    console.log("# DimensionsArray =",DimensionsArray)
+    console.log("# dimensions_names_array[eachDimensionObject] =",dimensions_names_array[eachDimensionObject])
+    console.log("# DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] =",DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
     
-//     DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
+    DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
 
-//     // DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(array_of_a_dimension)
-//   }
-//   var uniqueValuesForEachDimensionArrayOfObj = DimensionsArray
-//   console.log(" # #uniqueValuesForEachDimensionArrayOfObj = ",uniqueValuesForEachDimensionArrayOfObj)
-//   return uniqueValuesForEachDimensionArrayOfObj
-// }
+    // DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(array_of_a_dimension)
+  }
+  var uniqueValuesForEachDimensionArrayOfObj = DimensionsArray
+  console.log(" # #uniqueValuesForEachDimensionArrayOfObj = ",uniqueValuesForEachDimensionArrayOfObj)
+  return uniqueValuesForEachDimensionArrayOfObj
+}
 
 
 // ///////////////// returns array of only unique items in the given array
@@ -514,7 +459,6 @@ function build_uniqueValueForDimension(arrayCSV){
   uniqueValuesForEachDimensionArrayOfObj = DimensionsArray
   console.log("X uniqueValuesForEachDimensionArrayOfObj = ",uniqueValuesForEachDimensionArrayOfObj)
   // return uniqueValuesForEachDimensionArrayOfObj
-
   return build_dd_list(dimension_options,selected_options)
 }
 
