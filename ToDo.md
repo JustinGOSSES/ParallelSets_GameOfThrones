@@ -48,6 +48,7 @@ x			b3. style changes appropriately for all dimension items..
 		a. takes the chosen selected dimensions at start and populates the limitations object such that all items are included for those selected dimensions.
 	4. The function that populates the limitations object, should take items off if they already exist. 
 	5. On "rebuilt" button pressed, there shouldn't be a reset of classes!!! but they should reflect what was popluated.
+	6. when someone clicks to turn a dimenson off.. all limitation items should also turn off!
 
 
 
@@ -60,14 +61,13 @@ when an item is clicked that is already in limitations, that item is taken out..
 
 
 
+\
 
 
 
-
-
-
-
-
+- there should be a function that gets all the unique values for each dimension in the selected dimensions
+   and returns them in the same structure of limitations... 
+    .... and this should only run on page load.. and then never again?
 
 
 

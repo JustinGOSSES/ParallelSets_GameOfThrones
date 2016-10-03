@@ -10,8 +10,6 @@ An interactive parallel sets visualisation for D3.js.
 
 #### These changes move this parallel set visualization into more a data exploration tool. 
 
-#### This project is currently still a work in progress, please submit pull requests or contact me through other means if you see issues, bugs, or improvements. Thank you!
-
 This is an improvement / alternative that builds upon a previous version by Jason Davies, who built d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
 which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz.
 
