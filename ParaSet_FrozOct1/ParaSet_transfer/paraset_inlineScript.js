@@ -1,8 +1,8 @@
 ///////////////              Initial Variables: Globals That Get Changes Based on User Interaction:
 //////// array of possible dimensions the user could chose to visualize
-var dimension_options = ["BattleNumber", "AttackerSizeApproximate","DefenderSizeApproximate","year", "attacker1",  "defender1", "AttackerOutcome", "BattleType","MajorDeath","MajorCapture","season","location","region",]
+var dimension_options = ["AttackerSizeApproximate","DefenderSizeApproximate","year","attacker1","defender1","AttackerOutcome","BattleType","MajorDeath","MajorCapture","season","location","region"]
 //////// array of dimensions, the user has chosen to visualize or are given as starting example
-var selected_options = ["AttackerSizeApproximate","year","season","region",]
+var selected_options = ["AttackerSizeApproximate","year","season","region"]
 ///// object consisting of dimension name: value name key:value pairs - these limit the input CSV values to only rows that have these dimension:value pairs.
 ///// items are added this like, key:[values] or dimension_name:[dimension_item_1, dimension_item_2]
 var limitations = {}
@@ -39,6 +39,15 @@ function removeA(arr) {
     return arr;
 }
 
+function popItemArray(array, item){
+  for (each in array){
+    if(array[each]===item){
+      array.splice(each,1)
+    }
+  }
+  return array
+}
+
 
 function checkIfDimensionSelectedChange(dimension){
     var foundMatch = "no"
@@ -57,19 +66,42 @@ function checkIfDimensionSelectedChange(dimension){
 ////////////////// function that changes limits to all in or all out if a dimension drop-down is clicked:
 function checkIfDimSelectChangeLimit(dimension){
   /// handles dimension already checked that is now clicked:
-  if(selected_options[dimension]){
-    for (each in selected_options){
-      if(selected_options[each]===dimension){
+  // if(selected_options[dimension]){
+  //   for (each in selected_options){
+  //     if(selected_options[each]===dimension){
+  //       limitations[dimension] = [];
+  //     }
+  //   }
+  //   console.log("zz zz -takeout- handling checkIfDimSelectChangeLimit(dimension), dimension=",dimension," and limitations[dimension] is now, ",limitations[dimension])
+  // }
+  // else if(typeof selected_options[dimension] === "undefined"){
+  //   console.log("zz zz rr -putin- dimension not in selected_options before in func checkIfDimSelectChangeLimit(dimension) =",dimension)
+  //   popLimitObjForDim(dimension);
+  // }
+  // else{console.log("PROBLEM SHOULD HAVE BEEN ONE OR OTHER IN checkIfDimSelectChangeLimit")}
+
+
+  console.log("zz zz dimension, ",dimension);
+  console.log("zz zz selected_options =",selected_options)
+  var helper = "not_present";
+  for (each in selected_options){
+    if(selected_options[each]===dimension){
+      if (each < -1) {
         limitations[dimension] = [];
+        // selected_options.splice(each, 1);
+        // limitations[dimension] = [];
+        console.log("zz zz -takeout- handling checkIfDimSelectChangeLimit(dimension), dimension=",dimension," and limitations[dimension] is now, ",limitations[dimension]);
+        helper="present";
       }
     }
   }
-  else if(typeof(selected_options[dimension])==="undefined"){
-    console.log("yyy yy dimension in func checkIfDimSelectChangeLimit(dimension) =",dimension)
-    popLimitObjForDim(dimension);
+  if (helper==="not_present"){
+        console.log("zz zz rr -putin- dimension not in selected_options before in func checkIfDimSelectChangeLimit(dimension) =",dimension)
+        popLimitObjForDim(dimension);
   }
-  else{console.log("PROBLEM SHOULD HAVE BEEN ONE OR OTHER IN checkIfDimSelectChangeLimit")}
 }
+  
+
 
 
 ///////////// function that adds all unique items for a given dimension to its limitation object key:value pair
@@ -183,10 +215,13 @@ function build_dd_list(dimension_options,selected_options){
 ///// changing CSS classes and putting items in and out of the selected diemnsions array
 function initiateClickers(){
     $(document).ready(function(e){
-    $("li a.dimensions").click(function(e){
-      if (e.target !== this){return;}
-      var nonsense = $(this).hasClass("not_checked");
+    $("li.dimensions a.dimensions").unbind().click(function(e){
+        console.log("zzz clicked on a li.dimensions a.dimensions")
+
+      // if (e.target !== this){return;}
+      // var nonsense = $(this).hasClass("not_checked");
       if ($(this).hasClass("not_checked")===true){
+        console.log("zzz clicked dimensions and class= not_checked")
         $(this).removeClass("not_checked");
         $(this).addClass("checked");
         var id_helper_orig = $(this).attr('id')
@@ -199,36 +234,38 @@ function initiateClickers(){
         // $(this).find("li.buck_right").addClass("checked");
         $("li a#"+id_helper_orig).addClass("checked");
         $("li a#"+id_helper_orig).removeClass("not_checked");
-         console.log("zz print limitations,",limitations)
+         console.log("zz print limitations, was not checked,",limitations)
         event.stopPropagation();
       }
       else{
+        console.log("zzz clicked dimensions and class= checked")
         $(this).addClass("not_checked");
         $(this).removeClass("checked");
         var id_helper_orig = $(this).attr('id')
         id_helper = findAndReplace(id_helper_orig,"_"," ")
         checkIfDimSelectChangeLimit(id_helper)
-        removeA(selected_options, id_helper);
+        // removeA(selected_options, id_helper);
+        console.log("zz zz selected_options, ", selected_options)
+        selected_options = popItemArray(selected_options, id_helper)
+        console.log("zz zz selected_options, ", selected_options)
         //// things below this line in this function affect dimension items:
         console.log("getting id from click li", $(this).attr('id'))
         // $(this).find("li.buck_right").addClass("checked");
         // var current_dim_id = $(this).attr('dimension');
         // console.log("dimension left at small level",current_dim_id)
            // $("ul."+current_dim_id).addClass("hidden");
-         $("li a#"+id_helper_orig).addClass("not_checked");
-         $("li a#"+id_helper_orig).removeClass("checked");
+         // $("li a#"+id_helper_orig).addClass("not_checked");
+         // $("li a#"+id_helper_orig).removeClass("checked");
          
-          console.log("zz print limitations,",limitations)
-         event.stopPropagation();
-
-
-    
+         console.log("zz print limitations, was checked,",limitations)
+         event.stopPropagation();    
       }
       event.stopPropagation();
 
       selected_options = uniq(selected_options);
       // console.log("check ",nonsense)
-      // console.log("check selected_options ", selected_options)
+      console.log("zzz check selected_options ", selected_options)
+      console.log("zzz clicked dimensions, this is end of that click?")
     })
     /// these next two highlight where a mouse click occurs the drop-down menus
     $("li a.dimensions").mousedown(function(){
@@ -246,14 +283,14 @@ function initiateClickers(){
       console.log("current_dim_id",current_dim_id)
       // $("ul."+current_dim_id).removeClass("hidden");
       $("li."+current_dim_id).removeClass("hidden");
-      recent_hover = current_dim_id;
+      // recent_hover = current_dim_id;
     })
     $("li.buck_right").mouseleave(function(){
       var current_dim_id = $(this).attr('dimension');
       console.log("dimension left at small level",current_dim_id)
       // $("ul."+current_dim_id).addClass("hidden");
       $("li.buck_right."+current_dim_id).addClass("hidden");
-      recent_hover = current_dim_id;
+      // recent_hover = current_dim_id;
        console.log("zz print limitations,",limitations)
     })
     $("li.dimensions").mouseleave(function(){
@@ -261,18 +298,18 @@ function initiateClickers(){
       console.log("dimension left at big level",current_dim_id)
       // $("ul."+current_dim_id).addClass("hidden");
       $("li.buck_right."+current_dim_id).addClass("hidden");
-      recent_hover = current_dim_id;
+      // recent_hover = current_dim_id;
     })
     $("li.buck_right").unbind().click(function(){
       var current_dim_id = $(this).attr('dimensions');
       var current_dim_value_id = $(this).attr('id');
-      console.log("yyy yy current_dim_id ",current_dim_id)
-      console.log("yyy yy typeof(current_dim_id) ",typeof(current_dim_id))
-      console.log("yyy yy current_dim_value_id ",current_dim_value_id)
-      console.log("yyy yy typeof(current_dim_value_id) ",typeof(current_dim_value_id))
+      // console.log("yyy yy current_dim_id ",current_dim_id)
+      // console.log("yyy yy typeof(current_dim_id) ",typeof(current_dim_id))
+      // console.log("yyy yy current_dim_value_id ",current_dim_value_id)
+      // console.log("yyy yy typeof(current_dim_value_id) ",typeof(current_dim_value_id))
       var current_dim_id_unform = findAndReplace(current_dim_id,"_"," ");
       var current_dim_value_id_unform = findAndReplace(current_dim_value_id,"_"," ");
-      console.log("yyy yy limitations[current_dim_id_unform]",limitations[current_dim_id_unform])
+      // console.log("yyy yy limitations[current_dim_id_unform]",limitations[current_dim_id_unform])
      
       checkIfDimensionSelectedChange(current_dim_id_unform)
 
@@ -373,8 +410,8 @@ function limitToSomeNew(arrayCSV, limitations){
 /////// this should be called once, then used to build drop-down to right of main one?
 function build_uniqueValueForDimension(arrayCSV){
   var initialDimensionsObject = arrayCSV[0][0]["__data__"][0];
-  var dimensions_names_array = Object.keys(initialDimensionsObject)
-  
+  // var dimensions_names_array = Object.keys(initialDimensionsObject)
+  var dimensions_names_array = dimension_options
   ///// creates an object of dimensions as keys, with an empty array as values
   var DimensionsArray = []
   for (eachDim in dimensions_names_array){

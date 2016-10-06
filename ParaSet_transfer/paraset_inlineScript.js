@@ -183,7 +183,7 @@ function build_dd_list(dimension_options,selected_options){
 ///// changing CSS classes and putting items in and out of the selected diemnsions array
 function initiateClickers(){
     $(document).ready(function(e){
-    $("li a.dimensions").click(function(e){
+    $("li a.dimensions").unbind().click(function(e){
       if (e.target !== this){return;}
       var nonsense = $(this).hasClass("not_checked");
       if ($(this).hasClass("not_checked")===true){
