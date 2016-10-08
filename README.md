@@ -2,6 +2,8 @@
 
 An interactive parallel sets visualisation for D3.js.
 
+#### Most current version is in folder ParaSet_Oct2
+
 ####Parallel Set Visualizations are a great way to show relationships and distribution in a dataset with many shared categorical data dimensions, but they can quickly become a visual mess if they have too many dimensions or too many unique categories for each dimension. 
 
 #### This is an attempt to minimize that problem by adding some UI features that let the user :
