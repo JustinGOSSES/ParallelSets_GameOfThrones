@@ -1,8 +1,8 @@
-# d3.parsets_PlusUI
+# d3.parset.addOn.js : Game of Thrones Battles
 
 An interactive parallel sets visualisation for D3.js.
 
-#### Most current version is in folder ParaSet_Oct2
+Most current version is in folder ParaSet_Oct2
 
 ####Parallel Set Visualizations are a great way to show relationships and distribution in a dataset with many shared categorical data dimensions, but they can quickly become a visual mess if they have too many dimensions or too many unique categories for each dimension. 
 
