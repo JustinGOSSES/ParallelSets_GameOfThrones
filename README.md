@@ -16,13 +16,21 @@ Most current version is in folder ParaSet_Oct2
 
 This is an improvement / alternative that builds upon a previous version by Jason Davies, who built d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
 which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz.
+=====================================================
+
+This code applies the d3.parsets.addOn.js file
+
+## d3.parasets.addOn.js
+
+
+
 
 =====================================================
 Documentation below directly copied from https://github.com/jasondavies/d3-parsets
 
 This code applies to the d3.parsets.js file
 
-## API
+## d3.parasets.js API
 
 <a name="d3_parsets" href="#d3_parsets">#</a> d3.<b>parsets</b>()
 
