@@ -2,7 +2,7 @@
 
 <b>An interactive parallel sets visualisation using D3.js.</b>
 
-####Parallel Set Visualizations are a great way to show relationships and distribution in a dataset with many shared categorical data dimensions, but they can quickly become a visual mess if they have too many dimensions or too many unique categories for each dimension. 
+Parallel Set Visualizations are a great way to show relationships and distribution in a dataset with many shared categorical data dimensions, but they can quickly become a visual mess if they have too many dimensions or too many unique categories for each dimension. 
 
 #### This is an attempt to minimize that problem by adding some UI features that let the user :
 ####    1. Choose which dimensions to show
@@ -10,8 +10,7 @@
 
 #### These changes move this parallel set visualization into more a data exploration tool. 
 
-This is an improvement / alternative that builds upon a previous version by Jason Davies, who built d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
-which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz. 
+This project builds upon [d3.parsets](http://www.jasondavies.com/parallel-sets/) by Jason Davies, which was based on the GUI [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz. 
 
 #### More Information:
 More information can be found in a <a href="www.justingosses.com/parallelsets">blog</a> post and on <a href="https://github.com/JustinGOSSES/ParallelSets_GameOfThrones">github</a>. 
