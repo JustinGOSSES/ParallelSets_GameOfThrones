@@ -23,7 +23,7 @@ More information can be found in a <a href="www.justingosses.com/parallelsets">b
 
 =====================================================
 
-This code applies the d3.parsets.userFilt.js file
+### This section applies to the d3.parsets.userFilt.js file
 
 <a name="userFilt_dimension_options" href="#userFilt">#</a> userFilt.<b>dimension_options</b>
 
@@ -47,11 +47,12 @@ This is an object consisting of multiple key value pairs where the key is a dime
 
 
 =====================================================
+
+### This section applies to the d3.parsets.js file
+
 Documentation below directly copied from https://github.com/jasondavies/d3-parsets
 
-This code applies to the d3.parsets.js file
-
-## API
+### API
 
 <a name="d3_parsets" href="#d3_parsets">#</a> d3.<b>parsets</b>()
 
