@@ -1,8 +1,6 @@
-# d3.parset.addOn.js : Game of Thrones Battles
+# d3.parsets.userFilt
 
-An interactive parallel sets visualisation for D3.js.
-
-*Most current version is in folder ParaSet_Oct2*
+An interactive parallel sets visualisation using D3.js.
 
 ####Parallel Set Visualizations are a great way to show relationships and distribution in a dataset with many shared categorical data dimensions, but they can quickly become a visual mess if they have too many dimensions or too many unique categories for each dimension. 
 
@@ -12,17 +10,40 @@ An interactive parallel sets visualisation for D3.js.
 
 #### These changes move this parallel set visualization into more a data exploration tool. 
 
-#### This project is currently still a work in progress, please submit pull requests or contact me through other means if you see issues, bugs, or improvements. Thank you!
-
 This is an improvement / alternative that builds upon a previous version by Jason Davies, who built d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
-which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz.
+which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz. 
+
+#### More Information:
+More information can be found in a <a href="www.justingosses.com/parallelsets">blog</a> post and on <a href="https://github.com/JustinGOSSES/ParallelSets_GameOfThrones">github</a>. 
+
+#### Notes:
+
+   - This application uses a tooltip function that conflicts with the bootstrap toolstrap namespace. If you're going to use bootstrap, one way around this is to only use a subset of the bootstrap CSS which excludes tooltip information.
+   - Some functions were created to handle spaces and special characters in input data, but there is still possibilities of problems there. 
+
 =====================================================
 
 This code applies the d3.parsets.userFilt.js file
 
-## d3.parasets.userFilt.js
+<a name="userFilt_dimension_options" href="#userFilt">#</a> userFilt.<b>dimension_options</b>
 
+Is an array that contains the various categories or dimensions the user can pick from to be visualized. These will be the column headers in the input CSV.
 
+<a name="userFilt_selected_options" href="#userFilt">#</a> userFilt.<b>selected_options</b>
+
+This is an array of the dimensions options chosen to the visualized. It is a subset of the dimension options array. This array is populated initially in the code and then modified by the user via a drop-down menu. 
+
+<a name="userFilt_limitations" href="#userFilt">#</a> userFilt.<b>limitations</b>
+
+This is an object consisting of multiple key value pairs where the key is a dimension and the value is an array of values for that dimension. In the situation where the user wants to visualize only some of the values in a given dimension, they are populated and depopulated in here. If they are present, that means the resulting data being given to the parallel sets visualization is limited to the data that matches those vaues for that dimension. For example, it can be limited to only battles that involve the House of Stark as a defender. 
+
+<a name="userFilt_uniqueValuesForEachDimensionArrayOfObj" href="#userFilt">#</a> userFilt.<b>uniqueValuesForEachDimensionArrayOfObj</b>
+
+ This is an array of all unique values for each dimension, used to populate secondary drop-down menu
+
+<a name="userFilt_state" href="#userFilt">#</a> userFilt.<b>state</b>
+
+ Object that keeps track of how many times the visualization has been rebuilt.
 
 
 =====================================================
@@ -30,7 +51,7 @@ Documentation below directly copied from https://github.com/jasondavies/d3-parse
 
 This code applies to the d3.parsets.js file
 
-## d3.parasets.js API
+## API
 
 <a name="d3_parsets" href="#d3_parsets">#</a> d3.<b>parsets</b>()
 
