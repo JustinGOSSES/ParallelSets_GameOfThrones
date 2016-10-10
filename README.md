@@ -22,7 +22,7 @@ More information can be found in a <a href="www.justingosses.com/parallelsets">b
    - Some functions were created to handle spaces and special characters in input data, but there is still possibilities of problems there. 
 
 
-!ScreenShotReadMe.png ](https://github.com/JustinGOSSES/ParallelSets_GameOfThrones/images/ScreenShotReadMe.png "screenshot")
+!ScreenShotReadMe.png ](https://github.com/JustinGOSSES/ParallelSets_GameOfThrones/blob/master/images/ScreenShotReadMe.png "screenshot")
 =====================================================
 
 ### This section applies to the d3.parsets.userFilt.js file
