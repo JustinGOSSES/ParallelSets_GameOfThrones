@@ -21,6 +21,8 @@ More information can be found in a <a href="www.justingosses.com/parallelsets">b
    - This application uses a tooltip function that conflicts with the bootstrap toolstrap namespace. If you're going to use bootstrap, one way around this is to only use a subset of the bootstrap CSS which excludes tooltip information.
    - Some functions were created to handle spaces and special characters in input data, but there is still possibilities of problems there. 
 
+
+!ScreenShotReadMe.png ](https://github.com/JustinGOSSES/ParallelSets_GameOfThrones/images/ScreenShotReadMe.png "screenshot")
 =====================================================
 
 ### This section applies to the d3.parsets.userFilt.js file
