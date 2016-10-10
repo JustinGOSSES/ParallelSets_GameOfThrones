@@ -16,6 +16,10 @@ which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert
 #### More Information:
 More information can be found in a <a href="www.justingosses.com/parallelsets">blog</a> post and on <a href="https://github.com/JustinGOSSES/ParallelSets_GameOfThrones">github</a>. 
 
+#### Notes:
+
+   - This application uses a tooltip function that conflicts with the bootstrap toolstrap namespace. If you're going to use bootstrap, one way around this is to only use a subset of the bootstrap CSS which excludes tooltip information.
+   - Some functions were created to handle spaces and special characters in input data, but there is still possibilities of problems there. 
 
 =====================================================
 
@@ -40,11 +44,6 @@ This is an object consisting of multiple key value pairs where the key is a dime
 <a name="userFilt_state" href="#userFilt">#</a> userFilt.<b>state</b>
 
  Object that keeps track of how many times the visualization has been rebuilt.
-
-#### Notes:
-
-   - This application uses a tooltip function that conflicts with the bootstrap toolstrap namespace. If you're going to use bootstrap, one way around this is to only use a subset of the bootstrap CSS which excludes tooltip information.
-   - Some functions were created to handle spaces and special characters in input data, but there is still possibilities of problems there. 
 
 
 =====================================================
