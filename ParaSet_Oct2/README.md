@@ -13,7 +13,7 @@ An interactive parallel sets visualisation for D3.js.
 This is an improvement / alternative that builds upon a previous version by Jason Davies, who built d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
 which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz. 
 
-### More Information:
+#### More Information:
 More information can be found in a <a href="www.justingosses.com/parallelsets">blog</a> post and on <a href="https://github.com/JustinGOSSES/ParallelSets_GameOfThrones">github</a>. 
 
 
@@ -41,7 +41,7 @@ This is an object consisting of multiple key value pairs where the key is a dime
 
  Object that keeps track of how many times the visualization has been rebuilt.
 
-### Notes:
+#### Notes:
 
    - This application uses a tooltip function that conflicts with the bootstrap toolstrap namespace. If you're going to use bootstrap, one way around this is to only use a subset of the bootstrap CSS which excludes tooltip information.
    - Some functions were created to handle spaces and special characters in input data, but there is still possibilities of problems there. 
