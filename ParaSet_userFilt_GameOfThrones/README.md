@@ -19,6 +19,7 @@ More information can be found in a <a href="www.justingosses.com/parallelsets">b
 
    - This application uses a tooltip function that conflicts with the bootstrap toolstrap namespace. If you're going to use bootstrap, one way around this is to only use a subset of the bootstrap CSS which excludes tooltip information.
    - Some functions were created to handle spaces and special characters in input data, but there is still possibilities of problems there. 
+   - This project is new. I know of at least one thing that needs fixed. Please submit a pull request or otherwise let me know if you have a bug or have a suggestion. 
 
 
 ![alt tag](/images/ScreenShotReadMe.png)
