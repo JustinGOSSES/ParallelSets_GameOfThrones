@@ -11,9 +11,12 @@ An interactive parallel sets visualisation for D3.js.
 #### These changes move this parallel set visualization into more a data exploration tool. 
 
 This is an improvement / alternative that builds upon a previous version by Jason Davies, who built d3.jparsets :  Example: <http://www.jasondavies.com/parallel-sets/>
-which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz.
+which was based on [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz. 
 
+#### More Information:
 More information can be found in a <a href="www.justingosses.com/parallelsets">blog</a> post and on <a href="https://github.com/JustinGOSSES/ParallelSets_GameOfThrones">github</a>. 
+
+
 =====================================================
 
 This code applies the d3.parsets.userFilt.js file
