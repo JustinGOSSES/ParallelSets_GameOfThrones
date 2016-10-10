@@ -15,7 +15,6 @@ userFilt["uniqueValuesForEachDimensionArrayOfObj"]  = [];
 // /////// stops functions from rebuilding drop-down menus after initial load because I messed up and set it up dumb
 userFilt["state"] = {"cycle":0}
 
-
 //////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////   Helper Functions  /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +67,6 @@ function curves() {
     // t.call(chart.tension(0.5));
   }
 
-
 ////  checks if selected dimension is in selected dimensions array. If it isn't, adds it.
 function checkIfDimensionSelectedChange(dimension){
     var foundMatch = "no"
@@ -82,7 +80,6 @@ function checkIfDimensionSelectedChange(dimension){
     }
     // console.log("WWW userFilt["selected_options"] in checkIfDimensionSelectedChange,",userFilt["selected_options"])
 }
-
 
 ////////////////// function that changes limits to all in or all out if a dimension drop-down is clicked:
 function checkIfDimSelectChangeLimit(dimension){
@@ -106,7 +103,6 @@ function checkIfDimSelectChangeLimit(dimension){
         popLimitObjForDim(dimension);
   }
 }
-  
 
 ///////////// function that adds all unique items for a given dimension to its limitation object key:value pair
 function popLimitObjForDim(dimension){
@@ -145,7 +141,6 @@ function popLimitObjForDim(dimension){
           // console.log("findArrayObjNumber() dimension =",dimension)
           return each
         }
-        
       }
       console.log("did not find a match in findArrayObjNumber(): Dimension is ",dimension," array_unique_values_for_each_dimension is ",array_unique_values_for_each_dimension)
     }
@@ -224,10 +219,9 @@ function build_dd_list(dimension_options,selected_options){
 ///// changing CSS classes and putting items in and out of the selected diemnsions array
 function initiateClickers(){
     $(document).ready(function(e){
+      /////--// This handles clicks on the dimension or category drop-down using jquery. ////////
     $("li.dimensions a.dimensions").unbind().click(function(e){
-        // console.log("zzz clicked on a li.dimensions a.dimensions")
-      // if (e.target !== this){return;}
-      // var nonsense = $(this).hasClass("not_checked");
+        /////--// This handles clicks on the dimension or category drop-down if the category hasn't yet been selected. ////////
       if ($(this).hasClass("not_checked")===true){
         // console.log("zzz clicked dimensions and class= not_checked")
         $(this).removeClass("not_checked");
@@ -237,14 +231,12 @@ function initiateClickers(){
         id_helper = findAndReplace(id_helper_orig,"_"," ")
         checkIfDimSelectChangeLimit(id_helper)
         userFilt["selected_options"].push(id_helper);
-        //// things below this line in this function affect dimension items:
-        // console.log("getting id from click li", $(this).attr('id'))
-        // $(this).find("li.buck_right").addClass("checked");
         $("li a#"+id_helper_orig).addClass("checked");
         $("li a#"+id_helper_orig).removeClass("not_checked");
          // console.log("zz print userFilt["limitations"], was not checked,",userFilt["limitations"])
         event.stopPropagation();
       }
+      /////--// This handles clicks on the dimension or category drop-down if the category has been selected. ////////
       else{
         // console.log("zzz clicked dimensions and class= checked")
         $(this).addClass("not_checked");
@@ -259,13 +251,12 @@ function initiateClickers(){
          event.stopPropagation();    
       }
       event.stopPropagation();
-
       userFilt["selected_options"] = uniq(userFilt["selected_options"]);
       // console.log("check ",nonsense)
       // console.log("zzz check userFilt["selected_options"] ", userFilt["selected_options"])
       // console.log("zzz clicked dimensions, this is end of that click?")
     })
-    /// these next two highlight where a mouse click occurs the drop-down menus
+    /// these next two highlight where a mouse click occurs the category drop-down menus
     $("li a.dimensions").mousedown(function(){
       $(this).addClass("mouseD")
     })
@@ -283,6 +274,8 @@ function initiateClickers(){
       $("li."+current_dim_id).removeClass("hidden");
       // recent_hover = current_dim_id;
     })
+  /////--// buck_right is the class for dimension values... in other words.. the possible values for each dimensions ////////
+
     $("li.buck_right").mouseleave(function(){
       var current_dim_id = $(this).attr('dimension');
       // console.log("dimension left at small level",current_dim_id)
