@@ -1,25 +1,24 @@
-// ///////////////              Initial Variables: Globals That Get Changes Based on User Interaction:
-// //////// array of possible dimensions the user could chose to visualize
-// var dimension_options = ["AttackerSizeApproximate","DefenderSizeApproximate","year","attacker1","defender1","AttackerOutcome","BattleType","MajorDeath","MajorCapture","season","location","region"]
-// //////// array of dimensions, the user has chosen to visualize or are given as starting example
-// var selected_options = ["AttackerSizeApproximate","year","season","region"]
-// ///// object consisting of dimension name: value name key:value pairs - these limit the input CSV values to only rows that have these dimension:value pairs.
-// ///// items are added this like, key:[values] or dimension_name:[dimension_item_1, dimension_item_2]
-// var limitations = {}
-// ///// array of all unique values for each dimension, used to populate secondary drop-down menu
-// var uniqueValuesForEachDimensionArrayOfObj = [];
-// /////// stops functions from rebuilding drop-down menus after initial load because I messed up and set it up dumb
-// var state = {"cycle":0}
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ///////////////      Initial Variables: Globals That Get Changed Based on User Interaction:  //////////////\\\
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 var userFilt = {};
+// //////// array of possible dimensions the user could chose to visualize  /////////////////////////
 userFilt["dimension_options"] = ["AttackerSizeApproximate","DefenderSizeApproximate","year","attacker1","defender1","AttackerOutcome","BattleType","MajorDeath","MajorCapture","season","location","region"];
+// //////// array of dimensions, the user has chosen to visualize or are given as starting example //////////////////////
 userFilt["selected_options"] = ["AttackerSizeApproximate","year","season","region"];
+// ///// object consisting of dimension name: value name key:value pairs - these limit the input CSV values to only rows that have these dimension:value pairs.
+// ////////////items are added this like, key:[values] or dimension_name:[dimension_item_1, dimension_item_2] ////////////////////////////////////////////////////////////////////////////
 userFilt["limitations"] ={};
+// ///// array of all unique values for each dimension, used to populate secondary drop-down menu
+userFilt["uniqueValuesForEachDimensionArrayOfObj"]  = [];
+// /////// stops functions from rebuilding drop-down menus after initial load because I messed up and set it up dumb
 userFilt["state"] = {"cycle":0}
 
 
-
+//////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////   Helper Functions  /////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 /////////////   replaces all examples of a certain character in a string
 function findAndReplace(string, target, replacement) {
  var i = 0, length = string.length;
@@ -109,19 +108,17 @@ function checkIfDimSelectChangeLimit(dimension){
 }
   
 
-
-
 ///////////// function that adds all unique items for a given dimension to its limitation object key:value pair
 function popLimitObjForDim(dimension){
   // var dimension_id = String(dimension);
   //   console.log("zz z type = ", typeof(dimension_id))
   // console.log("zz z dimension_id=",dimension)
   //   dimension_id = findAndReplace(dimension_id," ","_")
-  var arrayNumber = findArrayObjNumber(dimension, uniqueValuesForEachDimensionArrayOfObj);
+  var arrayNumber = findArrayObjNumber(dimension, userFilt["uniqueValuesForEachDimensionArrayOfObj"]);
     // console.log("arrayNumber is, ",arrayNumber)
-    var this_key =Object.keys(uniqueValuesForEachDimensionArrayOfObj[arrayNumber])
+    var this_key =Object.keys(userFilt["uniqueValuesForEachDimensionArrayOfObj"][arrayNumber])
     // console.log("this_key =", this_key);
-    var current_dim_array = uniqueValuesForEachDimensionArrayOfObj[arrayNumber][this_key]
+    var current_dim_array = userFilt["uniqueValuesForEachDimensionArrayOfObj"][arrayNumber][this_key]
     // console.log("! current_dim_array= ",current_dim_array)
     // var DimFormat = findAndReplace(String(dimension)," ","_")
     userFilt["limitations"][dimension] = [];
@@ -136,8 +133,6 @@ function popLimitObjForDim(dimension){
     // console.log("zz print userFilt["limitations"],",userFilt["limitations"])
 }
 
-
-/////////// this is confusing, need to rewrite
  //// function that takes the dimension unformatted and finds the array object number of the array of objects
     //// of all unique values for each dimension that matches it
     ///// returns the array object number to match.... 
@@ -155,6 +150,10 @@ function popLimitObjForDim(dimension){
       console.log("did not find a match in findArrayObjNumber(): Dimension is ",dimension," array_unique_values_for_each_dimension is ",array_unique_values_for_each_dimension)
     }
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////  Builds Drop-Down Menus & populates Them   /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 /////// builds drop-down options as li 
@@ -183,15 +182,15 @@ function build_dd_list(dimension_options,selected_options){
     //// added this newer still!, might break everything?
     $("li#"+dimension_id).append("<ul class="+dimension_id+" hidden dim_values></ul>");
     //// cycles over each unique value in the dimension the above for loop is currently on?
-    // console.log("uniqueValuesForEachDimensionArrayOfObj[dimension][dimension_options[dimension] =",uniqueValuesForEachDimensionArrayOfObj[dimension][dimension_options[dimension]]);
+    // console.log("userFilt["uniqueValuesForEachDimensionArrayOfObj"][dimension][dimension_options[dimension] =",userFilt["uniqueValuesForEachDimensionArrayOfObj"][dimension][dimension_options[dimension]]);
     //// function that takes the dimension unformatted and finds the array object number of the array of objects
     //// of all unique values for each dimension that matches it
-    var arrayNumber = findArrayObjNumber(dimension_options[dimension], uniqueValuesForEachDimensionArrayOfObj);
+    var arrayNumber = findArrayObjNumber(dimension_options[dimension], userFilt["uniqueValuesForEachDimensionArrayOfObj"]);
     // console.log("arrayNumber is, ",arrayNumber)
 
-    var this_key =Object.keys(uniqueValuesForEachDimensionArrayOfObj[arrayNumber])
+    var this_key =Object.keys(userFilt["uniqueValuesForEachDimensionArrayOfObj"][arrayNumber])
     // console.log("this_key =", this_key);
-    var current_dim_array = uniqueValuesForEachDimensionArrayOfObj[arrayNumber][this_key]
+    var current_dim_array = userFilt["uniqueValuesForEachDimensionArrayOfObj"][arrayNumber][this_key]
     // console.log("! current_dim_array= ",current_dim_array)
     for (eachUniqueDimValue in current_dim_array){
       var UniqueDimValue = current_dim_array[eachUniqueDimValue];
@@ -203,7 +202,7 @@ function build_dd_list(dimension_options,selected_options){
       $("ul."+dimension_id).append("<li id="+DimUvalFormat+" dimensions="+dimension_id+" class=' buck_right "+dimension_id+" hidden'><a id="+dimension_id+" class='checkers "+checked_class+" dimensions_ITEMS '"+">"+"  "+DimUvalFormat+"</a></li>")
     }
      // console.log("zz userFilt["limitations"],",userFilt["limitations"],"type of userFilt["limitations"],",typeof(userFilt["limitations"]))
-     // console.log("zz uniqueValuesForEachDimensionArrayOfObj,",uniqueValuesForEachDimensionArrayOfObj,"type of uniqueValuesForEachDimensionArrayOfObj,",typeof(uniqueValuesForEachDimensionArrayOfObj))
+     // console.log("zz userFilt["uniqueValuesForEachDimensionArrayOfObj"],",userFilt["uniqueValuesForEachDimensionArrayOfObj"],"type of userFilt["uniqueValuesForEachDimensionArrayOfObj"],",typeof(userFilt["uniqueValuesForEachDimensionArrayOfObj"]))
     // popLimitObjForDim(dimension_options[dimension])
     initiateClickers();
   }
@@ -215,6 +214,10 @@ function build_dd_list(dimension_options,selected_options){
 
 };
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////  Handles User Interaction   /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 ///// when document ready, this handles the user interface of clicks resulting in 
@@ -357,6 +360,13 @@ function initiateClickers(){
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////    Functions That Take Initial Data Load and Do Initial Data Processing    ///////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 //// this function returns an array based on the d3 imported CSV where
 //// the returned array is limited to a subset of rows where specific dimensions (aka columns) match a given value
 function limitToSomeNew(arrayCSV, limitations){
@@ -429,12 +439,18 @@ function build_uniqueValueForDimension(arrayCSV){
     DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]])
     // DimensionsArray[eachDimensionObject][dimensions_names_array[eachDimensionObject]] = uniq(array_of_a_dimension)
   }
-  uniqueValuesForEachDimensionArrayOfObj = DimensionsArray
-  // console.log("X uniqueValuesForEachDimensionArrayOfObj = ",uniqueValuesForEachDimensionArrayOfObj)
+  userFilt["uniqueValuesForEachDimensionArrayOfObj"] = DimensionsArray
+  // console.log("X userFilt["uniqueValuesForEachDimensionArrayOfObj"] = ",userFilt["uniqueValuesForEachDimensionArrayOfObj"])
   return build_dd_list(userFilt["dimension_options"],userFilt["selected_options"])
 }
 
 
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////  Builds SVGs for Visualization using d3.parasets.js and d3.js   /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////  builds the parallel sets visualization SVGs  //////////////////
 function build_parallel_sets(curves_checkbox){
@@ -634,7 +650,11 @@ function build_parallel_sets(curves_checkbox){
   });
 }
 
-/////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////  Functions That Run After Page is Loaded  /////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 $(document).ready(function(){
   build_parallel_sets()
