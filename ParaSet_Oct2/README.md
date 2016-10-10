@@ -1,6 +1,6 @@
 # d3.parsets.userFilt
 
-<b><i>An interactive parallel sets visualisation using D3.js.<i><b>
+<b>An interactive parallel sets visualisation using D3.js.</b>
 
 ####Parallel Set Visualizations are a great way to show relationships and distribution in a dataset with many shared categorical data dimensions, but they can quickly become a visual mess if they have too many dimensions or too many unique categories for each dimension. 
 
