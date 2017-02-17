@@ -12,7 +12,7 @@ Parallel Set Visualizations are a great way to show relationships and distributi
 
 #### These changes move this parallel set visualization into more a data exploration tool. 
 
-### This project is live at <a href="https://justingosses.github.io/ParallelSets_GameOfThrones/">as a githib.io webpage</a>.
+### This project is live <a href="https://justingosses.github.io/ParallelSets_GameOfThrones/">as a githib.io webpage</a>.
 
 This project builds upon [d3.parsets](http://www.jasondavies.com/parallel-sets/) by Jason Davies, which was based on the GUI [Parallel Sets](http://eagereyes.org/parallel-sets) by Robert Kosara and Caroline Ziemkiewicz. 
 
