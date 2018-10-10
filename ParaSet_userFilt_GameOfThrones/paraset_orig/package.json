@@ -17,9 +17,5 @@
   "repository": {
     "type": "git",
     "url": "http://github.com/jasondavies/d3-parsets.git"
-  },
-  "main": "d3.parsets.js",
-  "devDependencies": {
-    "uglify-js": "3.2.x"
   }
 }
